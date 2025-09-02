@@ -165,6 +165,13 @@
 	
 	//Create Route List Table
 	$create_route_list_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_route_lists (school_id_number VARCHAR(225) NOT NULL, numeric_class_name VARCHAR(225) NOT NULL, subject_code VARCHAR(225) NOT NULL, day_code VARCHAR(225) NOT NULL, start_time VARCHAR(225) NOT NULL, end_time VARCHAR(225) NOT NULL)");
+
+	//Alter Route List Table (Add id_number column)
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_route_lists` LIKE 'id_number'");
+	$exists = (mysqli_num_rows($result)) ? TRUE : FALSE;
+	if (!$exists) {
+		mysqli_query($connection_server, "ALTER TABLE sm_route_lists ADD id_number INT(225) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (id_number)");
+	}
 	
 	//Create Exam List Table
 	$create_exam_list_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_exam_lists (school_id_number VARCHAR(225) NOT NULL, numeric_class_name VARCHAR(225) NOT NULL, subject_code VARCHAR(225) NOT NULL, day_code VARCHAR(225) NOT NULL, exam_date VARCHAR(225) NOT NULL, start_time VARCHAR(225) NOT NULL, end_time VARCHAR(225) NOT NULL)");
