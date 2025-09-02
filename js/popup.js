@@ -901,3 +901,21 @@ function startCBTExam(examButtonHTML) {
 		alert("Operation Cancelled");
 	}
 }
+
+function smsPaymentCallBackRecord(school_id, amount, payment_ref){
+	const smsPaymentHttpRequest = new XMLHttpRequest();
+	smsPaymentHttpRequest.open("POST","./sms-payment-record.php");
+	smsPaymentHttpRequest.setRequestHeader("Content-Type","application/json");
+	const smsPaymentHttpRequestBody = JSON.stringify({sch_no: school_id, amount: amount, ref: payment_ref});
+	smsPaymentHttpRequest.onload = function(){
+		if((smsPaymentHttpRequest.readyState == 4) && (smsPaymentHttpRequest.status == 200)){
+		const smsPaymentResponse = JSON.parse(smsPaymentHttpRequest.responseText)["response"];
+			if(smsPaymentResponse == 1){
+				alert("Payment successful and wallet credited.");
+			}
+		}else{
+			alert(smsPaymentHttpRequest.status);
+		}
+	}
+	smsPaymentHttpRequest.send(smsPaymentHttpRequestBody);
+}

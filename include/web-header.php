@@ -158,6 +158,18 @@ $tab = $_GET['tab'] ?? '';
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">CBT Activation</button>
 		</a>
 	</div>
+	<a href="/bc-admin.php?page=smgt_sms_settings">
+		<button onmouseover="grayImg(this,'sms-settings-img','setting.png');" onmouseout="whiteImg(this,'sms-settings-img','setting.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+			<img id="sms-settings-img" src="imgfile/white/setting.png"/>
+			SMS Settings
+		</button>
+	</a><br>
+	<a href="/bc-admin.php?page=smgt_sms_payments">
+		<button onmouseover="grayImg(this,'sms-payments-img','Payment.png');" onmouseout="whiteImg(this,'sms-payments-img','Payment.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+			<img id="sms-payments-img" src="imgfile/white/Payment.png"/>
+			SMS Payments
+		</button>
+	</a><br>
 	
 	<?php if(!isset($_SESSION["sup_adm_session"])){ ?>
 	<a onclick="osList('sub-evaluation');">
@@ -316,6 +328,30 @@ $tab = $_GET['tab'] ?? '';
 			Transport
 		</button>
 	</a><br>
+
+	<?php if(isset($_SESSION["mod_adm_session"])){ ?>
+	<a onclick="osList('sub-sms');">
+		<button onmouseover="grayImg(this,'sms-img','Message_Chat.png'); grayDropImg('sms-drop-img','drop-forward.png');" onmouseout="whiteImg(this,'sms-img','Message_Chat.png'); whiteDropImg('sms-drop-img','drop-forward.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
+			<img id="sms-img" src="imgfile/white/Message_Chat.png"/>
+			SMS
+			<img id="sms-drop-img" src="imgfile/white/drop-forward.png" style="float: right;"/>
+		</button>
+	</a><br>
+	<div id="sub-sms" style="display: none; margin: 0 0 0 -16px;" class="color-7 bg-2 mobile-width-100  system-width-100 mobile-padding-left-5 system-padding-left-10 mobile-padding-right-5 system-padding-right-10 mobile-padding-top-1 system-padding-top-1 mobile-padding-bottom-1 system-padding-bottom-1">
+		<a href="/bc-admin.php?page=smgt_sms_dashboard&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Dashboard</button>
+		</a><br>
+		<a href="/bc-admin.php?page=smgt_sms_phonebook&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Phone Book</button>
+		</a><br>
+		<a href="/bc-admin.php?page=smgt_sms_send&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Send SMS</button>
+		</a><br>
+		<a href="/bc-admin.php?page=smgt_sms_sender_id&id=<?php echo $get_logged_user_details['school_id_number']; ?>">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">Sender IDs</button>
+		</a><br>
+	</div>
+	<?php } ?>
 	
 	<!-- <a href="/bc-admin.php?page=smgt_report">
 		<button onmouseover="grayImg(this,'report-img','report.png');" onmouseout="whiteImg(this,'report-img','report.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">

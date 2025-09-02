@@ -46,6 +46,12 @@
 		mysqli_query($connection_server, "ALTER TABLE sm_school_details ADD COLUMN `language` VARCHAR(225) NOT NULL");
 	}
 
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_school_details` LIKE 'wallet_balance'");
+	$exists = (mysqli_num_rows($result)) ? TRUE : FALSE;
+	if (!$exists) {
+		mysqli_query($connection_server, "ALTER TABLE sm_school_details ADD COLUMN `wallet_balance` DECIMAL(10,2) NOT NULL DEFAULT 0.00");
+	}
+
 	//Create Moderator Table
 	$create_mod_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_moderators (email VARCHAR(225) NOT NULL, password VARCHAR(225) NOT NULL, school_id_number VARCHAR(225) NOT NULL, firstname VARCHAR(225) NOT NULL, lastname VARCHAR(225) NOT NULL, phone_number VARCHAR(225) NOT NULL, gender VARCHAR(225) NOT NULL, marital_status VARCHAR(225) NOT NULL, home_address VARCHAR(225) NOT NULL, office_address VARCHAR(225) NOT NULL, city VARCHAR(225) NOT NULL, state VARCHAR(225) NOT NULL, country VARCHAR(225) NOT NULL)");
 	
@@ -203,6 +209,21 @@
 	
 	//Create Email Template Table
 	$create_email_template_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_email_templates (school_id_number VARCHAR(225) NOT NULL, template_name VARCHAR(225) NOT NULL, template_title VARCHAR(225) NOT NULL, template_message LONGTEXT NOT NULL)");
+
+	//Create SMS Settings Table
+	$create_sms_settings_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_settings (id INT NOT NULL AUTO_INCREMENT, sms_api_key VARCHAR(225), flutterwave_public_key VARCHAR(225), flutterwave_secret_key VARCHAR(225), flutterwave_encryption_key VARCHAR(225), bank_name VARCHAR(225), account_number VARCHAR(225), account_name VARCHAR(225), PRIMARY KEY (id))");
+
+	//Create SMS History Table
+	$create_sms_history_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_history (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, sender_id VARCHAR(225) NOT NULL, recipients TEXT NOT NULL, message TEXT NOT NULL, status VARCHAR(225) NOT NULL, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
+
+	//Create SMS Payment History Table
+	$create_sms_payment_history_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_payment_history (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, payment_method VARCHAR(225) NOT NULL, amount DECIMAL(10,2) NOT NULL, reference VARCHAR(225) NOT NULL, status VARCHAR(225) NOT NULL, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
+
+	//Create SMS Phonebook Table
+	$create_sms_phonebook_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_phonebook (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, name VARCHAR(225) NOT NULL, phone_number VARCHAR(225) NOT NULL, is_parent BOOLEAN NOT NULL, PRIMARY KEY (id))");
+
+	//Create SMS Sender IDs Table
+	$create_sms_sender_ids_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_sender_ids (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, sender_id VARCHAR(225) NOT NULL, status VARCHAR(225) NOT NULL, date_submitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
 	
 	
 	if(isset($_SESSION["sup_adm_session"])){
