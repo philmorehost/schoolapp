@@ -173,7 +173,7 @@
     <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
         <center>
             <?php
-                $edit_route_list_checkmate = mysqli_query($connection_server, "SELECT * FROM sm_route_lists WHERE (school_id_number='".trim(strip_tags($_GET['id']))."' && route_id='".trim(strip_tags($_GET['edit']))."')");
+                $edit_route_list_checkmate = mysqli_query($connection_server, "SELECT * FROM sm_route_lists WHERE (school_id_number='".trim(strip_tags($_GET['id']))."' && id_number='".trim(strip_tags($_GET['edit']))."')");
                 if((isset($_GET['edit'])) && (trim(strip_tags($_GET['edit'])) !== "") && (mysqli_num_rows($edit_route_list_checkmate) == 1)){
                     if(mysqli_num_rows($edit_route_list_checkmate) == 1){
                         $edit_route_list_detail = mysqli_fetch_array($edit_route_list_checkmate);
