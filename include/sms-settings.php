@@ -46,6 +46,16 @@ if (isset($_SESSION['feedback_message'])) {
                 <span class="form-span mobile-font-size-12 system-font-size-14">Account Name*</span>
             </div>
 
+            <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
+                <input name="price_per_sms" type="text" placeholder="Price per SMS" class="form-input" value="<?php echo $sms_settings['price_per_sms']; ?>" required/>
+                <span class="form-span mobile-font-size-12 system-font-size-14">Price per SMS*</span>
+            </div>
+
+            <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
+                <input name="payment_charges" type="text" placeholder="Payment Charges" class="form-input" value="<?php echo $sms_settings['payment_charges']; ?>" required/>
+                <span class="form-span mobile-font-size-12 system-font-size-14">Payment Charges*</span>
+            </div>
+
             <button type="submit" name="save-sms-settings" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-93 system-width-46 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-5 system-margin-left-3 mobile-margin-right-1 system-margin-right-1">
                 Save Settings
             </button>

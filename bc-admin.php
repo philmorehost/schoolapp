@@ -381,6 +381,20 @@
 	if(strip_tags($_GET["page"]) == "smgt_sms_sender_id"){
 		include("include/func/sms-sender-id.php");
 	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
+		include("include/func/sms-send.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_purchase"){
+		include("include/func/sms-settings.php");
+		include("include/func/sms-purchase.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_payments"){
+		include("include/func/sms-settings.php");
+		include("include/func/sms-payments.php");
+	}
 	
 	if(strip_tags($_GET["page"]) == "smgt_check_result"){
 		include("include/func/view-result.php");

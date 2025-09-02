@@ -1,29 +1,19 @@
 <?php
 // This file is for the SMS dashboard for school admins.
 // It will display the SMS wallet balance, SMS history, and payment history.
+$school_id = $get_logged_user_details['school_id_number'];
 
-// Fetch PhilmoreSMS API key
-$get_api_key = mysqli_query($connection_server, "SELECT sms_api_key FROM sm_sms_settings LIMIT 1");
-if (mysqli_num_rows($get_api_key) > 0) {
-    $api_key = mysqli_fetch_array($get_api_key)['sms_api_key'];
+// Fetch the school's local SMS balance.
+// The column is named 'wallet_balance' based on the logic in sms-payments.php,
+// but it semantically stores the SMS credit balance.
+$get_balance_query = mysqli_query($connection_server, "SELECT wallet_balance FROM sm_school_details WHERE school_id_number = '$school_id' LIMIT 1");
 
-    // Fetch wallet balance from PhilmoreSMS API
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://app.philmoresms.com/api/balance.php');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "token=$api_key");
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $response = json_decode($result, true);
-    if ($response['status'] == 'success') {
-        $wallet_balance = $response['balance'];
-    } else {
-        $wallet_balance = 'Error fetching balance';
-    }
+if (mysqli_num_rows($get_balance_query) > 0) {
+    $balance_row = mysqli_fetch_assoc($get_balance_query);
+    $wallet_balance = $balance_row['wallet_balance'] . ' SMS Credits';
 } else {
-    $wallet_balance = 'API key not set';
+    // If the school isn't in the details table or column doesn't exist, show 0.
+    $wallet_balance = '0 SMS Credits';
 }
 ?>
 <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
