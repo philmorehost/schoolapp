@@ -1,7 +1,6 @@
 <?php
 // This file is for the SMS settings page for the super admin.
 // It will have a form to configure the PhilmoreSMS API key, Flutterwave credentials, and bank details.
-session_start();
 ?>
 <?php
 if (isset($_SESSION['feedback_message'])) {

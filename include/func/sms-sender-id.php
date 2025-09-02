@@ -1,5 +1,4 @@
 <?php
-session_start();
 $school_id = $get_logged_user_details['school_id_number'];
 
 // Get API key

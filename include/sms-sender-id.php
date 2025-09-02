@@ -1,6 +1,5 @@
 <?php
 // This file is for the Sender ID management page for school admins.
-session_start();
 ?>
 <?php
 if (isset($_SESSION['feedback_message'])) {

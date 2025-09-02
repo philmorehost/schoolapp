@@ -373,6 +373,14 @@
 	if(strip_tags($_GET["page"]) == "smgt_email_template"){
 		include("include/func/email-template.php");
 	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_settings"){
+		include("include/func/sms-settings.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_sender_id"){
+		include("include/func/sms-sender-id.php");
+	}
 	
 	if(strip_tags($_GET["page"]) == "smgt_check_result"){
 		include("include/func/view-result.php");

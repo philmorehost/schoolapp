@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 if (isset($_POST['save-sms-settings'])) {
     $sms_api_key = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST['sms-api-key'])));
     $flutterwave_public_key = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST['flutterwave-public-key'])));
