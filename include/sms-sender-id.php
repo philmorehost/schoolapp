@@ -8,15 +8,15 @@
                 <div class="mobile-width-90 system-width-90">
                     <h3>Register New Sender ID</h3>
                     <form method="post">
-                        <div class="form-group">
-                            <label for="sender-id">Sender ID</label>
+                        <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
                             <input type="text" name="sender-id" id="sender-id" class="form-input" maxlength="11" required>
+                            <span class="form-span mobile-font-size-12 system-font-size-14">Sender ID*</span>
                         </div>
-                        <div class="form-group">
-                            <label for="sample-message">Sample Message</label>
+                        <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
                             <textarea name="sample-message" id="sample-message" class="form-input" rows="3" required></textarea>
+                            <span class="form-span mobile-font-size-12 system-font-size-14">Sample Message*</span>
                         </div>
-                        <button type="submit" name="register-sender-id" class="button-box color-2 bg-4 onhover-bg-color-7">Register Sender ID</button>
+                        <button type="submit" name="register-sender-id" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-93 system-width-93 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-5 system-margin-left-3 mobile-margin-right-1 system-margin-right-1">Register Sender ID</button>
                     </form>
                 </div>
             </div>

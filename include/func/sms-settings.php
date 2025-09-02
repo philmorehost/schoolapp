@@ -20,7 +20,7 @@ if (isset($_POST['save-sms-settings'])) {
             bank_name = '$bank_name',
             account_number = '$account_number',
             account_name = '$account_name'
-        ");
+        LIMIT 1");
     } else {
         // Insert new settings
         $insert_settings = mysqli_query($connection_server, "INSERT INTO sm_sms_settings (
