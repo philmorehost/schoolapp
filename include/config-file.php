@@ -211,19 +211,73 @@
 	$create_email_template_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_email_templates (school_id_number VARCHAR(225) NOT NULL, template_name VARCHAR(225) NOT NULL, template_title VARCHAR(225) NOT NULL, template_message LONGTEXT NOT NULL)");
 
 	//Create SMS Settings Table
-	$create_sms_settings_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_settings (id INT NOT NULL AUTO_INCREMENT, sms_api_key VARCHAR(225), flutterwave_public_key VARCHAR(225), flutterwave_secret_key VARCHAR(225), flutterwave_encryption_key VARCHAR(225), bank_name VARCHAR(225), account_number VARCHAR(225), account_name VARCHAR(225), PRIMARY KEY (id))");
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_settings (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'sms_api_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN sms_api_key VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'flutterwave_public_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN flutterwave_public_key VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'flutterwave_secret_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN flutterwave_secret_key VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'flutterwave_encryption_key'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN flutterwave_encryption_key VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'bank_name'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN bank_name VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'account_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN account_number VARCHAR(225)"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_settings` LIKE 'account_name'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_settings ADD COLUMN account_name VARCHAR(225)"); }
 
 	//Create SMS History Table
-	$create_sms_history_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_history (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, sender_id VARCHAR(225) NOT NULL, recipients TEXT NOT NULL, message TEXT NOT NULL, status VARCHAR(225) NOT NULL, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_history (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'school_id_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN school_id_number VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'sender_id'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN sender_id VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'recipients'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN recipients TEXT NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'message'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN message TEXT NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'status'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN status VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_history` LIKE 'date'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_history ADD COLUMN date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); }
 
 	//Create SMS Payment History Table
-	$create_sms_payment_history_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_payment_history (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, payment_method VARCHAR(225) NOT NULL, amount DECIMAL(10,2) NOT NULL, reference VARCHAR(225) NOT NULL, status VARCHAR(225) NOT NULL, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_payment_history (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'school_id_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN school_id_number VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'payment_method'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN payment_method VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'amount'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN amount DECIMAL(10,2) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'reference'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN reference VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'status'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN status VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_payment_history` LIKE 'date'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_payment_history ADD COLUMN date TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); }
 
 	//Create SMS Phonebook Table
-	$create_sms_phonebook_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_phonebook (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, name VARCHAR(225) NOT NULL, phone_number VARCHAR(225) NOT NULL, is_parent BOOLEAN NOT NULL, PRIMARY KEY (id))");
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_phonebook (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_phonebook` LIKE 'school_id_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_phonebook ADD COLUMN school_id_number VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_phonebook` LIKE 'name'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_phonebook ADD COLUMN name VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_phonebook` LIKE 'phone_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_phonebook ADD COLUMN phone_number VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_phonebook` LIKE 'is_parent'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_phonebook ADD COLUMN is_parent BOOLEAN NOT NULL"); }
 
 	//Create SMS Sender IDs Table
-	$create_sms_sender_ids_table = mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_sender_ids (id INT NOT NULL AUTO_INCREMENT, school_id_number VARCHAR(225) NOT NULL, sender_id VARCHAR(225) NOT NULL, status VARCHAR(225) NOT NULL, date_submitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id))");
+	mysqli_query($connection_server, "CREATE TABLE IF NOT EXISTS sm_sms_sender_ids (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))");
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_sender_ids` LIKE 'school_id_number'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN school_id_number VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_sender_ids` LIKE 'sender_id'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN sender_id VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_sender_ids` LIKE 'status'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN status VARCHAR(225) NOT NULL"); }
+	$result = mysqli_query($connection_server, "SHOW COLUMNS FROM `sm_sms_sender_ids` LIKE 'date_submitted'");
+	if (mysqli_num_rows($result) == 0) { mysqli_query($connection_server, "ALTER TABLE sm_sms_sender_ids ADD COLUMN date_submitted TIMESTAMP DEFAULT CURRENT_TIMESTAMP"); }
 	
 	
 	if(isset($_SESSION["sup_adm_session"])){

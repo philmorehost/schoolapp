@@ -156,20 +156,16 @@ $tab = $_GET['tab'] ?? '';
 		
 		<a href="/bc-admin.php?page=smgt_cbt_activation&tab=true">
 			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">CBT Activation</button>
+		</a><br>
+
+		<a href="/bc-admin.php?page=smgt_sms_settings">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">SMS Settings</button>
+		</a><br>
+
+		<a href="/bc-admin.php?page=smgt_sms_payments">
+			<button style="text-align:left;" type="button" class="button-box color-7 bg-6 mobile-width-100 system-width-100 mobile-font-size-14 system-font-size-14">SMS Payments</button>
 		</a>
 	</div>
-	<a href="/bc-admin.php?page=smgt_sms_settings">
-		<button onmouseover="grayImg(this,'sms-settings-img','setting.png');" onmouseout="whiteImg(this,'sms-settings-img','setting.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
-			<img id="sms-settings-img" src="imgfile/white/setting.png"/>
-			SMS Settings
-		</button>
-	</a><br>
-	<a href="/bc-admin.php?page=smgt_sms_payments">
-		<button onmouseover="grayImg(this,'sms-payments-img','Payment.png');" onmouseout="whiteImg(this,'sms-payments-img','Payment.png');" style="text-align:left;" type="button" class="button-box color-2 bg-3 mobile-font-size-14 system-font-size-14">
-			<img id="sms-payments-img" src="imgfile/white/Payment.png"/>
-			SMS Payments
-		</button>
-	</a><br>
 	
 	<?php if(!isset($_SESSION["sup_adm_session"])){ ?>
 	<a onclick="osList('sub-evaluation');">

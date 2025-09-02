@@ -15,6 +15,9 @@
 		}
 	}
 	include("include/config-file.php");
+	if ((strip_tags($_GET["page"]) == "smgt_sms_settings" || strip_tags($_GET["page"]) == "smgt_sms_payments") && !isset($_SESSION["sup_adm_session"])) {
+		header("Location: /bc-admin.php?page=smgt_dashboard");
+	}
 	$additional_back_tag = "";
 	$additional_add_tag = "";
 	
@@ -375,29 +378,6 @@
 		include("include/func/view-result.php");
 	}
 
-	if(strip_tags($_GET["page"]) == "smgt_sms_settings"){
-		include("include/func/sms-settings.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_sms_payments"){
-		include("include/func/sms-payments.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_sms_purchase"){
-		include("include/func/sms-purchase.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_sms_phonebook"){
-		include("include/func/sms-phonebook.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
-		include("include/func/sms-send.php");
-	}
-
-	if(strip_tags($_GET["page"]) == "smgt_sms_sender_id"){
-		include("include/func/sms-sender-id.php");
-	}
 	
 	if(isset($_POST["login-as-user-btn"])){
 		$userType = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["login-as-user-type-inp"])));
