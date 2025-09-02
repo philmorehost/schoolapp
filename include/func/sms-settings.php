@@ -11,6 +11,8 @@ if (isset($_POST['save-sms-settings'])) {
     // Check if settings already exist
     $check_settings = mysqli_query($connection_server, "SELECT * FROM sm_sms_settings LIMIT 1");
     if (mysqli_num_rows($check_settings) > 0) {
+        $settings_row = mysqli_fetch_assoc($check_settings);
+        $settings_id = $settings_row['id'];
         // Update existing settings
         $update_settings = mysqli_query($connection_server, "UPDATE sm_sms_settings SET
             sms_api_key = '$sms_api_key',
@@ -20,7 +22,7 @@ if (isset($_POST['save-sms-settings'])) {
             bank_name = '$bank_name',
             account_number = '$account_number',
             account_name = '$account_name'
-        LIMIT 1");
+        WHERE id = '$settings_id'");
     } else {
         // Insert new settings
         $insert_settings = mysqli_query($connection_server, "INSERT INTO sm_sms_settings (

@@ -22,7 +22,7 @@
                             <span class="form-span mobile-font-size-12 system-font-size-14">Sender ID*</span>
                         </div>
                         <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
-                            <select name="recipients[]" id="recipients" class="form-select" multiple required>
+                            <select name="recipients[]" id="recipients" class="form-select" multiple required style="height: 150px;">
                                 <optgroup label="Parents">
                                     <?php
                                     $get_parents = mysqli_query($connection_server, "SELECT * FROM sm_parents WHERE school_id_number = '$school_id'");
@@ -44,7 +44,7 @@
                             <span class="form-span mobile-font-size-12 system-font-size-14">Recipients*</span>
                         </div>
                         <div class="form-group mobile-width-90 system-width-93 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
-                            <textarea name="message" id="message" class="form-input" rows="5" required></textarea>
+                            <textarea name="message" id="message" class="form-input" rows="8" required></textarea>
                             <span class="form-span mobile-font-size-12 system-font-size-14">Message*</span>
                         </div>
                         <button type="submit" name="send-sms" class="button-box color-2 bg-4 onhover-bg-color-7 mobile-font-size-14 system-font-size-16 mobile-width-93 system-width-93 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-5 system-margin-left-3 mobile-margin-right-1 system-margin-right-1">Send SMS</button>
