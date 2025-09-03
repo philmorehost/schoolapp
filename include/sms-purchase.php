@@ -55,6 +55,7 @@ if (isset($_SESSION['feedback_message'])) {
                         </div>
                         <div class="mobile-width-100 system-width-100 mobile-margin-bottom-2 system-margin-bottom-2">
                             <p class="text-left">You will get: <strong id="bank-sms-count">0</strong> SMS credits.</p>
+                            <p class="text-left">Total to Transfer: <strong id="bank-total-charge">0.00</strong> NGN</p>
                         </div>
                         <div class="form-group mobile-width-100 system-width-100 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2">
                             <input name="reference" type="text" placeholder="Payment Reference" class="form-input" required/>
@@ -102,14 +103,25 @@ document.addEventListener('DOMContentLoaded', function() {
         return { smsCount, totalCharge };
     }
 
-    function calculateBankSms(amount) {
+    function calculateFwSms(amount) {
         if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
-            return 0;
+            return { smsCount: 0, totalCharge: 0 };
         }
-        // For bank transfer, the user sends the amount, and the fee is deducted from it.
-        const netAmount = amount - (amount * chargePercentage / 100);
-        if (netAmount <= 0) return 0;
-        return Math.floor(netAmount / pricePerSms);
+        const smsCount = Math.floor(amount / pricePerSms);
+        const chargeAmount = (amount * chargePercentage) / 100;
+        const totalCharge = amount + chargeAmount;
+        return { smsCount, totalCharge };
+    }
+
+    function calculateBankSms(amount) {
+        // This logic is now identical to Flutterwave's display logic
+        if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
+            return { smsCount: 0, totalCharge: 0 };
+        }
+        const smsCount = Math.floor(amount / pricePerSms);
+        const chargeAmount = (amount * chargePercentage) / 100;
+        const totalCharge = amount + chargeAmount;
+        return { smsCount, totalCharge };
     }
 
     fwAmountInput.addEventListener('input', function() {
@@ -122,9 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     bankAmountInput.addEventListener('input', function() {
         const amount = parseFloat(bankAmountInput.value);
-        const smsCount = calculateBankSms(amount);
+        const { smsCount, totalCharge } = calculateBankSms(amount);
 
         bankSmsCount.textContent = smsCount.toLocaleString();
+        document.getElementById('bank-total-charge').textContent = totalCharge.toFixed(2).toLocaleString();
     });
 });
 </script>

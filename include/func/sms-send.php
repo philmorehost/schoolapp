@@ -48,7 +48,8 @@ if (isset($_POST['send-sms'])) {
                     $_SESSION['feedback_message'] = "SMS sent successfully to $sms_cost recipients. Your new balance is $new_balance credits.";
                 } else {
                     $error_code = isset($response['error_code']) ? $response['error_code'] : 'N/A';
-                    $_SESSION['feedback_message'] = "Failed to send SMS. Error: " . $error_code;
+                    $raw_response = htmlspecialchars(print_r($response, true));
+                    $_SESSION['feedback_message'] = "Failed to send SMS. Error Code: " . $error_code . "<br><br>Full API Response: <pre>" . $raw_response . "</pre>";
                 }
             } else {
                 $_SESSION['feedback_message'] = "SMS sending is not configured. Please contact support.";

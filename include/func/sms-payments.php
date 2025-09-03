@@ -2,7 +2,6 @@
 if (isset($_POST['approve-payment'])) {
     $payment_id = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST['payment-id'])));
     $price_per_sms = isset($sms_settings['price_per_sms']) ? floatval($sms_settings['price_per_sms']) : 0;
-    $charge_percentage = isset($sms_settings['payment_charges']) ? floatval($sms_settings['payment_charges']) : 0;
 
     if ($price_per_sms <= 0) {
         $_SESSION['feedback_message'] = "Cannot approve payment: Price per SMS is not set or is invalid.";
@@ -11,13 +10,11 @@ if (isset($_POST['approve-payment'])) {
         if (mysqli_num_rows($get_payment) > 0) {
             $payment = mysqli_fetch_assoc($get_payment);
             $school_id = $payment['school_id_number'];
-            $amount_paid = floatval($payment['amount']);
+            $amount = floatval($payment['amount']);
 
-            // Deduct the percentage charge from the amount paid to get the value for credits
-            $fee_amount = ($amount_paid * $charge_percentage) / 100;
-            $net_amount = $amount_paid - $fee_amount;
-
-            $credits_to_add = floor($net_amount / $price_per_sms);
+            // The 'amount' stored is the amount for credits. The user is instructed to pay this amount plus the fee.
+            // So, we just convert the base amount to credits.
+            $credits_to_add = floor($amount / $price_per_sms);
 
             if ($credits_to_add > 0) {
                 // Using 'wallet_balance' as the column name based on existing code.

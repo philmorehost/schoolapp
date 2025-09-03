@@ -386,6 +386,10 @@
 		include("include/func/sms-send.php");
 	}
 
+	if(strip_tags($_GET["page"]) == "smgt_sms_phonebook"){
+		include("include/func/sms-phonebook.php");
+	}
+
 	if(strip_tags($_GET["page"]) == "smgt_sms_purchase"){
 		include("include/func/sms-settings.php");
 		include("include/func/sms-purchase.php");
