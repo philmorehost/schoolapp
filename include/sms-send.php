@@ -19,7 +19,7 @@ if (isset($_SESSION['feedback_message'])) {
                                 <option value="" disabled selected>Select Sender ID</option>
                                 <?php
                                 $school_id = $get_logged_user_details['school_id_number'];
-                                $get_sender_ids = mysqli_query($connection_server, "SELECT * FROM sm_sms_sender_ids WHERE school_id_number = '$school_id' AND status = 'approved'");
+                                $get_sender_ids = mysqli_query($connection_server, "SELECT * FROM sm_sms_sender_ids WHERE school_id_number = '$school_id' AND LOWER(status) = 'approved'");
                                 while ($sender_id = mysqli_fetch_array($get_sender_ids)) {
                                     echo "<option value='" . $sender_id['sender_id'] . "'>" . $sender_id['sender_id'] . "</option>";
                                 }
