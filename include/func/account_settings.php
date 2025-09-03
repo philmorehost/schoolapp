@@ -68,63 +68,62 @@
 		
 		
 		$account_update_pin = mysqli_real_escape_string($connection_server, trim(strip_tags($_POST["acc-update-pin"])));
-		$school_id = $get_logged_admin_details["school_id_number"];
+		$sup_admin_email = $_SESSION["sup_adm_session"];
 		
-		$search_admin_with_id = mysqli_query($connection_server, "SELECT * FROM sm_super_moderators LIMIT 1");
+		$search_admin_with_id = mysqli_query($connection_server, "SELECT * FROM sm_super_moderators WHERE email = '$sup_admin_email'");
 		
 		if(!empty($first) && !empty($last) && !empty($email) && !empty($gender) && !empty($res_address)){
 			if(mysqli_num_rows($search_admin_with_id) == 1){
-				while($admin_detail = mysqli_fetch_array($search_admin_with_id)){
-					if($admin_detail["email"] != "admin@example.com"){
-						if(!isset($_SESSION["super_rec_vericode"])){
-						
-							$email_title = "Admin Account Update Authentication";
-						
-							// Always set content-type when sending HTML email
-							$mail_headers = "MIME-Version: 1.0" . "\r\n";
-							$mail_headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-						
-							// More headers
-							$mail_headers .= 'From: <support@'.$_SERVER["HTTP_HOST"].'>' . "\r\n";
-							$mail_headers .= 'Cc: support@'.$_SERVER["HTTP_HOST"]."\r\n";
-						
-							$ref_char = "1234567890123456789012345678901234567890";
-							$verification_code = substr(str_shuffle($ref_char),0,6);
-							$_SESSION["super_rec_vericode"] = $verification_code;
-							$email_content = "		Hi {{admin}},\n Your account recovery pin is <b>{{code}}</b>.\nIf you do not initiate this kindly login you portal immediately or report to the appropriate authorities.";
-							$email_message = 
-							mailDesignTemplate($email_title,
-								str_replace("{{code}}",$_SESSION["super_rec_vericode"],
-									str_replace("{{admin}}",$admin_detail["firstname"]." ".$admin_detail["lastname"],
-										$email_content
-									)
-								),
-							'');
-							customBCMailSender('',$admin_detail['email'],$email_title,$email_message,$mail_headers);
-							$_SESSION["super_fname"] = $first;
-							$_SESSION["super_lname"] = $last;
-							$_SESSION["super_email"] = $email;
-							$_SESSION["super_gender"] = $gender;
-							$_SESSION["super_address"] = $res_address;
-						}else{
-							if($account_update_pin == $_SESSION["super_rec_vericode"]){
-								if(mysqli_query($connection_server, "UPDATE sm_super_moderators SET email='".$_SESSION["super_email"]."', firstname='".$_SESSION["super_fname"]."', lastname='".$_SESSION["super_lname"]."', gender='".$_SESSION["super_gender"]."', home_address='".$_SESSION["super_address"]."' WHERE 1") == true){
-									unset($_SESSION["super_fname"]);
-									unset($_SESSION["super_lname"]);
-									unset($_SESSION["super_email"]);
-									unset($_SESSION["super_gender"]);
-									unset($_SESSION["super_address"]);
-									unset($_SESSION["super_rec_vericode"]);
-									$redirect_url = $_SERVER["REQUEST_URI"]."&err=4";
-								}
-							}else{
-								$redirect_url = $_SERVER["REQUEST_URI"]."&err=5";
-							}
-						}
+				$admin_detail = mysqli_fetch_array($search_admin_with_id);
+				if($admin_detail["email"] != "admin@example.com"){
+					if(!isset($_SESSION["super_rec_vericode"])){
+
+						$email_title = "Admin Account Update Authentication";
+
+						// Always set content-type when sending HTML email
+						$mail_headers = "MIME-Version: 1.0" . "\r\n";
+						$mail_headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+						// More headers
+						$mail_headers .= 'From: <support@'.$_SERVER["HTTP_HOST"].'>' . "\r\n";
+						$mail_headers .= 'Cc: support@'.$_SERVER["HTTP_HOST"]."\r\n";
+
+						$ref_char = "1234567890123456789012345678901234567890";
+						$verification_code = substr(str_shuffle($ref_char),0,6);
+						$_SESSION["super_rec_vericode"] = $verification_code;
+						$email_content = "		Hi {{admin}},\n Your account recovery pin is <b>{{code}}</b>.\nIf you do not initiate this kindly login you portal immediately or report to the appropriate authorities.";
+						$email_message =
+						mailDesignTemplate($email_title,
+							str_replace("{{code}}",$_SESSION["super_rec_vericode"],
+								str_replace("{{admin}}",$admin_detail["firstname"]." ".$admin_detail["lastname"],
+									$email_content
+								)
+							),
+						'');
+						customBCMailSender('',$admin_detail['email'],$email_title,$email_message,$mail_headers);
+						$_SESSION["super_fname"] = $first;
+						$_SESSION["super_lname"] = $last;
+						$_SESSION["super_email"] = $email;
+						$_SESSION["super_gender"] = $gender;
+						$_SESSION["super_address"] = $res_address;
 					}else{
-						if(mysqli_query($connection_server, "UPDATE sm_super_moderators SET email='$email', firstname='$first', lastname='$last', gender='$gender', home_address='$res_address' WHERE 1") == true){
-							$redirect_url = $_SERVER["REQUEST_URI"]."&err=4";
+						if($account_update_pin == $_SESSION["super_rec_vericode"]){
+							if(mysqli_query($connection_server, "UPDATE sm_super_moderators SET email='".$_SESSION["super_email"]."', firstname='".$_SESSION["super_fname"]."', lastname='".$_SESSION["super_lname"]."', gender='".$_SESSION["super_gender"]."', home_address='".$_SESSION["super_address"]."' WHERE email = '$sup_admin_email'") == true){
+								unset($_SESSION["super_fname"]);
+								unset($_SESSION["super_lname"]);
+								unset($_SESSION["super_email"]);
+								unset($_SESSION["super_gender"]);
+								unset($_SESSION["super_address"]);
+								unset($_SESSION["super_rec_vericode"]);
+								$redirect_url = $_SERVER["REQUEST_URI"]."&err=4";
+							}
+						}else{
+							$redirect_url = $_SERVER["REQUEST_URI"]."&err=5";
 						}
+					}
+				}else{
+					if(mysqli_query($connection_server, "UPDATE sm_super_moderators SET email='$email', firstname='$first', lastname='$last', gender='$gender', home_address='$res_address' WHERE email = '$sup_admin_email'") == true){
+						$redirect_url = $_SERVER["REQUEST_URI"]."&err=4";
 					}
 				}
 			}else{
