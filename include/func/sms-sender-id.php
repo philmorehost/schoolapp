@@ -88,10 +88,20 @@ if (isset($_POST['check-sender-id-status'])) {
 
         process_form_submission($post_data, 'https://app.philmoresms.com/api/check_senderID.php', function($response) use ($sender_id_to_check) {
             global $connection_server, $school_id;
-            $status = mysqli_real_escape_string($connection_server, $response['ID_status']);
+
+            // Sanitize and handle potentially empty status from API
+            $api_status = isset($response['ID_status']) ? trim($response['ID_status']) : '';
+            if (empty($api_status)) {
+                // If the API call was a success but the status is empty, assume it's approved.
+                $status = 'approved';
+            } else {
+                $status = $api_status;
+            }
+
+            $escaped_status = mysqli_real_escape_string($connection_server, $status);
             $escaped_sender_id = mysqli_real_escape_string($connection_server, $sender_id_to_check);
 
-            $update_query = "UPDATE sm_sms_sender_ids SET status = '$status' WHERE school_id_number = '$school_id' AND sender_id = '$escaped_sender_id'";
+            $update_query = "UPDATE sm_sms_sender_ids SET status = '$escaped_status' WHERE school_id_number = '$school_id' AND sender_id = '$escaped_sender_id'";
             if (mysqli_query($connection_server, $update_query)) {
                 $_SESSION['feedback_message'] = "Sender ID status updated to: " . htmlspecialchars($status);
             } else {

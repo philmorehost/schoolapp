@@ -73,7 +73,7 @@ if (isset($_SESSION['feedback_message'])) {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const pricePerSms = parseFloat(<?php echo json_encode($sms_settings['price_per_sms']); ?>) || 0;
-    const paymentCharges = parseFloat(<?php echo json_encode($sms_settings['payment_charges']); ?>) || 0;
+    const chargePercentage = parseFloat(<?php echo json_encode($sms_settings['payment_charges']); ?>) || 0;
 
     const fwAmountInput = document.getElementById('flutterwave-amount');
     const fwSmsCount = document.getElementById('flutterwave-sms-count');
@@ -82,21 +82,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const bankAmountInput = document.getElementById('bank-amount');
     const bankSmsCount = document.getElementById('bank-sms-count');
 
-    function calculateSms(amount, charges) {
+    function calculateFwSms(amount) {
+        if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
+            return { smsCount: 0, totalCharge: 0 };
+        }
+        const smsCount = Math.floor(amount / pricePerSms);
+        const chargeAmount = (amount * chargePercentage) / 100;
+        const totalCharge = amount + chargeAmount;
+        return { smsCount, totalCharge };
+    }
+
+    function calculateBankSms(amount) {
         if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
             return 0;
         }
-        const amountAfterCharges = amount - charges;
-        if (amountAfterCharges <= 0) {
-            return 0;
-        }
-        return Math.floor(amountAfterCharges / pricePerSms);
+        return Math.floor(amount / pricePerSms);
     }
 
     fwAmountInput.addEventListener('input', function() {
         const amount = parseFloat(fwAmountInput.value);
-        const smsCount = calculateSms(amount, paymentCharges);
-        const totalCharge = isNaN(amount) || amount <= 0 ? 0 : amount + paymentCharges;
+        const { smsCount, totalCharge } = calculateFwSms(amount);
 
         fwSmsCount.textContent = smsCount.toLocaleString();
         fwTotalCharge.textContent = totalCharge.toFixed(2).toLocaleString();
@@ -104,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     bankAmountInput.addEventListener('input', function() {
         const amount = parseFloat(bankAmountInput.value);
-        const smsCount = calculateSms(amount, 0); // No charges for bank transfer
+        const smsCount = calculateBankSms(amount);
 
         bankSmsCount.textContent = smsCount.toLocaleString();
     });

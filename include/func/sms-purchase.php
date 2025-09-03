@@ -32,6 +32,10 @@ if (isset($_POST['pay-with-flutterwave'])) {
         exit();
     }
 
+    $charge_percentage = isset($sms_settings['payment_charges']) ? floatval($sms_settings['payment_charges']) : 0;
+    $charge_amount = ($amount * $charge_percentage) / 100;
+    $final_amount = $amount + $charge_amount;
+
     $public_key = isset($sms_settings['flutterwave_public_key']) ? $sms_settings['flutterwave_public_key'] : '';
 
     if (!empty($public_key)) {
@@ -42,7 +46,7 @@ if (isset($_POST['pay-with-flutterwave'])) {
                 FlutterwaveCheckout({
                     public_key: '$public_key',
                     tx_ref: '$ref',
-                    amount: $amount,
+                    amount: $final_amount,
                     currency: 'NGN',
                     payment_options: 'card, banktransfer, ussd',
                     redirect_url: '', // Add a proper redirect URL if needed
