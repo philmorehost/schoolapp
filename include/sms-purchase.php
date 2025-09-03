@@ -15,7 +15,7 @@ if (isset($_SESSION['feedback_message'])) {
                     <h3 class="text-left">Pricing Information</h3>
                     <p class="text-left">
                         <strong>Price per SMS:</strong> <?php echo htmlspecialchars($sms_settings['price_per_sms']); ?> NGN<br>
-                        <strong>Payment Gateway Charges:</strong> <?php echo htmlspecialchars($sms_settings['payment_charges']); ?> NGN
+                        <strong>Payment Gateway Charges:</strong> <?php echo htmlspecialchars($sms_settings['payment_charges']); ?>%
                     </p>
                 </div>
             </div>

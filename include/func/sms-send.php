@@ -26,12 +26,14 @@ if (isset($_POST['send-sms'])) {
                 $api_key = mysqli_fetch_assoc($get_api_key)['sms_api_key'];
                 $recipients_str = implode(',', $recipient_list);
 
-                // Send SMS using PhilmoreSMS API
+                // Send SMS using PhilmoreSMS API (as a GET request, per API error message)
+                $encoded_message = urlencode($message);
+                $url = "https://app.philmoresms.com/api/sms.php?token=$api_key&senderID=$sender_id&recipients=$recipients_str&message=$encoded_message";
+
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, 'https://app.philmoresms.com/api/sms.php');
+                curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, "token=$api_key&senderID=$sender_id&recipients=$recipients_str&message=$message");
+                // No POST options needed for a GET request
                 $result = curl_exec($ch);
                 curl_close($ch);
 
@@ -48,8 +50,7 @@ if (isset($_POST['send-sms'])) {
                     $_SESSION['feedback_message'] = "SMS sent successfully to $sms_cost recipients. Your new balance is $new_balance credits.";
                 } else {
                     $error_code = isset($response['error_code']) ? $response['error_code'] : 'N/A';
-                    $raw_response = htmlspecialchars(print_r($response, true));
-                    $_SESSION['feedback_message'] = "Failed to send SMS. Error Code: " . $error_code . "<br><br>Full API Response: <pre>" . $raw_response . "</pre>";
+                    $_SESSION['feedback_message'] = "Failed to send SMS. Error: " . $error_code;
                 }
             } else {
                 $_SESSION['feedback_message'] = "SMS sending is not configured. Please contact support.";
