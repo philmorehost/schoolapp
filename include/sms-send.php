@@ -13,7 +13,7 @@ if (isset($_SESSION['feedback_message'])) {
             <div class="container-box bg-3 mobile-width-100 system-width-100 mobile-padding-top-2 system-padding-top-2 mobile-padding-bottom-2 system-padding-bottom-2">
                 <div class="mobile-width-90 system-width-90">
                     <h3>Send SMS</h3>
-                    <form method="post">
+                    <form method="post" action="/bc-admin.php?page=smgt_sms_send">
                         <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
                             <select name="sender-id" id="sender-id" class="form-select" required>
                                 <option value="" disabled selected>Select Sender ID</option>

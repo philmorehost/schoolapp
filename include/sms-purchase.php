@@ -92,11 +92,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return { smsCount, totalCharge };
     }
 
+    function calculateFwSms(amount) {
+        if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
+            return { smsCount: 0, totalCharge: 0 };
+        }
+        const smsCount = Math.floor(amount / pricePerSms);
+        const chargeAmount = (amount * chargePercentage) / 100;
+        const totalCharge = amount + chargeAmount;
+        return { smsCount, totalCharge };
+    }
+
     function calculateBankSms(amount) {
         if (isNaN(amount) || amount <= 0 || pricePerSms <= 0) {
             return 0;
         }
-        return Math.floor(amount / pricePerSms);
+        // For bank transfer, the user sends the amount, and the fee is deducted from it.
+        const netAmount = amount - (amount * chargePercentage / 100);
+        if (netAmount <= 0) return 0;
+        return Math.floor(netAmount / pricePerSms);
     }
 
     fwAmountInput.addEventListener('input', function() {
