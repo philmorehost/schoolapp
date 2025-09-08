@@ -1,6 +1,12 @@
 <?php
 // This file is for the Sender ID management page for school admins.
 ?>
+<?php
+if (isset($_SESSION['feedback_message'])) {
+    echo '<div class="feedback-message">' . htmlspecialchars($_SESSION['feedback_message']) . '</div>';
+    unset($_SESSION['feedback_message']);
+}
+?>
 <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
     <center>
         <div class="mobile-width-95 system-width-95 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2">

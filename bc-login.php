@@ -56,6 +56,7 @@
 					$select_check_all_super_moderators_password = mysqli_query($connection_server, "SELECT * FROM sm_super_moderators WHERE email='$username' && password='$password'");
 					if(mysqli_num_rows($select_check_all_super_moderators_password) == 1){
 						$_SESSION["sup_adm_session"] = mysqli_fetch_array($select_check_all_super_moderators_password)["email"];
+						mysqli_query($connection_server, "UPDATE sm_super_moderators SET last_login = NOW() WHERE email = '$username'");
 						$redirect_url = $login_redirect_parameter;
 					}else{
 						$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";
@@ -75,6 +76,7 @@
 						$select_check_all_moderators_password = mysqli_query($connection_server, "SELECT * FROM sm_moderators WHERE school_id_number='$user_id' && password='$password'");
 						if(mysqli_num_rows($select_check_all_moderators_password) == 1){
 							$_SESSION["mod_adm_session"] = mysqli_fetch_array($select_check_all_moderators_password)["school_id_number"];
+							mysqli_query($connection_server, "UPDATE sm_moderators SET last_login = NOW() WHERE school_id_number = '$user_id'");
 							$redirect_url = $login_redirect_parameter;
 						}else{
 							$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";
@@ -90,6 +92,7 @@
 							$user_details = mysqli_fetch_array($select_check_all_admin_staffs_password);
 							$_SESSION["adm_staff_session"] = $user_details["id_number"];
 							$_SESSION["school_id"] = $user_details["school_id_number"];
+							mysqli_query($connection_server, "UPDATE sm_admin_staffs SET last_login = NOW() WHERE school_id_number = '$sch_id' AND id_number = '$user_id'");
 							$redirect_url = $login_redirect_parameter;
 						}else{
 							$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";
@@ -105,6 +108,7 @@
 							$user_details = mysqli_fetch_array($select_check_all_teachers_password);
 							$_SESSION["teacher_session"] = $user_details["id_number"];
 							$_SESSION["school_id"] = $user_details["school_id_number"];
+							mysqli_query($connection_server, "UPDATE sm_teachers SET last_login = NOW() WHERE school_id_number = '$sch_id' AND id_number = '$user_id'");
 							$redirect_url = $login_redirect_parameter;
 						}else{
 							$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";
@@ -120,6 +124,7 @@
 							$user_details = mysqli_fetch_array($select_check_all_parents_password);
 							$_SESSION["stu_par_session"] = $user_details["id_number"];
 							$_SESSION["school_id"] = $user_details["school_id_number"];
+							mysqli_query($connection_server, "UPDATE sm_parents SET last_login = NOW() WHERE school_id_number = '$sch_id' AND id_number = '$user_id'");
 							$redirect_url = $login_redirect_parameter;
 						}else{
 							$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";
@@ -135,6 +140,7 @@
 							$user_details = mysqli_fetch_array($select_check_all_students_password);
 							$_SESSION["stu_session"] = $user_details["admission_number"];
 							$_SESSION["school_id"] = $user_details["school_id_number"];
+							mysqli_query($connection_server, "UPDATE sm_students SET last_login = NOW() WHERE school_id_number = '$sch_id' AND admission_number = '$user_id'");
 							$redirect_url = $login_redirect_parameter;
 						}else{
 							$redirect_url = "/bc-login.php?".$login_parameter_suffix."err=3";

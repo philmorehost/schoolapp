@@ -1,19 +1,25 @@
 <?php
 // This file is for the Send SMS page for school admins.
 ?>
+<?php
+if (isset($_SESSION['feedback_message'])) {
+    echo '<div class="feedback-message">' . htmlspecialchars($_SESSION['feedback_message']) . '</div>';
+    unset($_SESSION['feedback_message']);
+}
+?>
 <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
     <center>
         <div class="mobile-width-95 system-width-95 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2">
             <div class="container-box bg-3 mobile-width-100 system-width-100 mobile-padding-top-2 system-padding-top-2 mobile-padding-bottom-2 system-padding-bottom-2">
                 <div class="mobile-width-90 system-width-90">
                     <h3>Send SMS</h3>
-                    <form method="post">
+                    <form method="post" action="/bc-admin.php?page=smgt_sms_send">
                         <div class="form-group mobile-width-90 system-width-45 mobile-margin-top-2 system-margin-top-2 mobile-margin-bottom-2 system-margin-bottom-2 mobile-margin-left-2 system-margin-left-2 mobile-margin-right-2 system-margin-right-2">
                             <select name="sender-id" id="sender-id" class="form-select" required>
                                 <option value="" disabled selected>Select Sender ID</option>
                                 <?php
                                 $school_id = $get_logged_user_details['school_id_number'];
-                                $get_sender_ids = mysqli_query($connection_server, "SELECT * FROM sm_sms_sender_ids WHERE school_id_number = '$school_id' AND status = 'approved'");
+                                $get_sender_ids = mysqli_query($connection_server, "SELECT * FROM sm_sms_sender_ids WHERE school_id_number = '$school_id' AND LOWER(status) = 'approved'");
                                 while ($sender_id = mysqli_fetch_array($get_sender_ids)) {
                                     echo "<option value='" . $sender_id['sender_id'] . "'>" . $sender_id['sender_id'] . "</option>";
                                 }

@@ -83,7 +83,8 @@ if (($user_identifier_auth_id == "super_mod") && ($user_identifier_auth_id != "m
         <div class="container-box bg-2 mobile-width-100 system-width-100 mobile-margin-top-1 system-margin-top-1">
             <center>
                 <?php
-                $edit_user_checkmate = mysqli_query($connection_server, "SELECT * FROM sm_super_moderators");
+                $sup_admin_email = $_SESSION["sup_adm_session"];
+                $edit_user_checkmate = mysqli_query($connection_server, "SELECT * FROM sm_super_moderators WHERE email = '$sup_admin_email'");
                 if (mysqli_num_rows($edit_user_checkmate) == 1) {
                     $edit_user_detail = mysqli_fetch_array($edit_user_checkmate);
                 }

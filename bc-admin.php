@@ -373,6 +373,32 @@
 	if(strip_tags($_GET["page"]) == "smgt_email_template"){
 		include("include/func/email-template.php");
 	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_settings"){
+		include("include/func/sms-settings.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_sender_id"){
+		include("include/func/sms-sender-id.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_send"){
+		include("include/func/sms-send.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_phonebook"){
+		include("include/func/sms-phonebook.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_purchase"){
+		include("include/func/sms-settings.php");
+		include("include/func/sms-purchase.php");
+	}
+
+	if(strip_tags($_GET["page"]) == "smgt_sms_payments"){
+		include("include/func/sms-settings.php");
+		include("include/func/sms-payments.php");
+	}
 	
 	if(strip_tags($_GET["page"]) == "smgt_check_result"){
 		include("include/func/view-result.php");
@@ -663,7 +689,7 @@
 
 if($get_school_identification["school_id_number"] == true){
 $select_school_det_for_google_translation = mysqli_query($connection_server, "SELECT `language` FROM sm_school_details WHERE school_id_number='".$get_school_identification["school_id_number"]."' LIMIT 1");
-if(mysqli_num_rows($select_school_det_for_google_translation) == 1){echo $get_school_identification["school_id_number"]."sbeebay";
+if(mysqli_num_rows($select_school_det_for_google_translation) == 1){
 	$get_school_det_for_google_translation = mysqli_fetch_array($select_school_det_for_google_translation);
 	?>
 	<script>
